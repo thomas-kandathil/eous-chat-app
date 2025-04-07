@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NotificationService {
-  private notificationSound = new Audio('assets/eventually-590.mp3');
+  private notificationSound = new Audio('assets/message-ringtone-magic.mp3');
 
   constructor() {
     // preload audio

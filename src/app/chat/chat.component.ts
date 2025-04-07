@@ -35,6 +35,7 @@ export class ChatComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    if (localStorage.getItem('sender')) this.sender = localStorage.getItem('sender') || '';
     this.http.get<Message[]>('https://eous-chat-be.onrender.com/messages').subscribe(msg => {
       this.messages = msg;
     });
@@ -52,12 +53,14 @@ export class ChatComponent implements OnInit {
 
 
   send() {
+    localStorage.setItem('sender', this.sender);
     this.scrollToView(document.getElementById('pinnedChat'));
     this.chat.sendMessage({
       text: this.cryptoService.encryptMessage(this.newMessage),
       timestamp: Date.now(),
       sender: this.sender
     });
+    this.newMessage = '';
   }
   scrollToView(element: any) {
     element.scrollIntoView({

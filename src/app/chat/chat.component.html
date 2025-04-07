@@ -41,14 +41,15 @@
 
         <!-- Chat Input -->
         <footer class="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-full lg:w-1/2">
-            <div class="flex flex-col gap-1 items-center">
+            <div class="flex flex-col gap-1">
                 <input type="text" placeholder="enter user name" [(ngModel)]="sender"
                     class="w-1/2 p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500">
                 <div class="flex items-center w-full">
                     <input type="text" placeholder="Type a message..." [(ngModel)]="newMessage"
                         class="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500">
 
-                    <button class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2" (click)="send()">Send</button>
+                    <button class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2" [disabled]="!newMessage"
+                        (click)="send()">Send</button>
                 </div>
             </div>
         </footer>
