@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { map, Observable, tap } from 'rxjs';
 import { CryptoService } from '../crypto.service';
 import { DecryptPipe } from '../decrypt.pipe';
 import { ChatService } from '../chat.service';
@@ -17,7 +16,6 @@ import { NotificationService } from '../notification.service';
 
 
 export class ChatComponent implements OnInit {
-  // messages$: Observable<Message[]>;
   newMessage: string = '';
   sender: string = 'User' + Math.floor(Math.random() * 1000);
   private cryptoService = inject(CryptoService);
@@ -27,10 +25,6 @@ export class ChatComponent implements OnInit {
 
   messages: Message[] = [];
 
-  @ViewChild('scrollTarget') private scrollTarget!: ElementRef;
-
-  notificationSound = new Audio('assets/eventually-590.mp3');
-  lastMessageCount = 0;
   constructor() {
 
   }
@@ -43,7 +37,7 @@ export class ChatComponent implements OnInit {
     this.chat.getMessages().subscribe(msg => {
       this.messages.push(msg);
       if (msg.sender != this.sender) {
-        this.notificationService.showNotification('New message', {
+        this.notificationService.showNotification('New message from ' + msg.sender, {
           body: this.cryptoService.decryptMessage(msg.text),
           icon: 'assets/chat-icon.png',
         });
