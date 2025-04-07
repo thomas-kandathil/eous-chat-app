@@ -1,31 +1,56 @@
-<div class="p-6 bg-gray-100 min-h-screen flex flex-col chat-box-container ">
-    <!-- Header -->
-    <div class="text-center text-2xl font-bold mb-4">Chat Application</div>
+<div class="flex h-screen overflow-hidden m-auto w-full lg:w-1/2 bg-gray-100">
+    <div class="flex-1">
+        <!-- Chat Header -->
+        <header class="bg-white p-4 text-gray-700">
+            <h1 class="text-2xl font-semibold">Eous Chat</h1>
+        </header>
+
+        <!-- Chat Messages -->
+        <div class="h-screen overflow-y-auto p-4 pb-50" #scrollTarget>
+            <!-- Incoming Message -->
+            @for(message of messages; track message.text){
+            @if(message.sender == sender){
+            <div class="flex justify-end mb-4 cursor-pointer">
+                <div class="flex flex-col items-end">
+                    <p class="text-sm text-gray-500"><strong>{{message.sender}}</strong>
+                        {{message.timestamp|date:'medium'}}</p>
+                    <div class="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3 w-fit">
+                        <p>{{message.text|decrypt}}</p>
+                    </div>
+                </div>
+            </div>
+            }@else{
+            <div class="flex mb-4 cursor-pointer">
+                <div class="flex flex-col">
+                    <p class="text-sm text-gray-500"><strong>{{message.sender}}</strong>
+                        {{message.timestamp|date:'medium'}}</p>
+                    <div class="flex max-w-96 bg-white rounded-lg p-3 gap-3 w-fit">
+                        <p class="text-gray-700">{{message.text|decrypt}}</p>
+                    </div>
+                </div>
+            </div>
+            }
+            }
 
 
-    <input type="text" [(ngModel)]="sender" placeholder="Your Name" name="from" required
-        class="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
-    <!-- Messages Section -->
-    <div class="flex-1 bg-white rounded shadow overflow-y-auto p-4 min-h-[300px] max-h-[500px] mt-1">
-        <div *ngFor="let message of messages$ |async" class="mb-4">
-            <p class="text-sm text-gray-500">
-                <strong>{{ message.sender }}</strong>
-            </p>
-            <p class="text-gray-800">{{ message.text }}</p>
+
+
+            <div id="pinnedChat"> </div>
         </div>
-        <div id="pinnedChat"> </div>
+
+        <!-- Chat Input -->
+        <footer class="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-full lg:w-1/2">
+            <div class="flex flex-col gap-1 items-center">
+                <input type="text" placeholder="enter user name" [(ngModel)]="sender"
+                    class="w-1/2 p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500">
+                <div class="flex items-center w-full">
+                    <input type="text" placeholder="Type a message..." [(ngModel)]="newMessage"
+                        class="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500">
+
+                    <button class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2" (click)="send()">Send</button>
+                </div>
+            </div>
+        </footer>
     </div>
-
-    <!-- Send Message Form -->
-    <div class="flex flex-col gap-1 bg-white p-4 rounded shadow mt-4">
-
-        <input type="text" [(ngModel)]="newMessage" placeholder="Your Message" name="from" required
-            class="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <button (click)="sendMessage()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            Send Message
-        </button>
-
-    </div>
-
 </div>
